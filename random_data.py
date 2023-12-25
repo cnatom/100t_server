@@ -1,10 +1,22 @@
+# -*- coding: utf-8 -*-
 import random
 import time
 from datetime import datetime, timedelta
 import requests
 import json
 
+# 设置初始时间点（这里以代码首次运行的时间为例）
+start_time = datetime.now()
 
+def format_elapsed_time(elapsed_time):
+    # 获取总秒数
+    seconds = int(elapsed_time.total_seconds())
+    # 提取天数、小时数、分钟数和秒数
+    days, seconds = divmod(seconds, 86400)
+    hours, seconds = divmod(seconds, 3600)
+    minutes, seconds = divmod(seconds, 60)
+    # 格式化为字符串
+    return f"{days}天 {hours}小时 {minutes}分钟 {seconds}秒"
 def update_data(data_dict):
     # 每个数据的更新频率（秒）
     update_frequency = {
@@ -32,8 +44,10 @@ def update_data(data_dict):
 
     for key in data_dict.keys():
         if key == "yxsj":
-            # 运行时间每秒更新
-            data_dict[key] = current_time.isoformat()
+            # 计算运行时间
+            elapsed_time = datetime.now() - start_time
+            # 格式化运行时间
+            data_dict[key] = format_elapsed_time(elapsed_time)
         elif key in ["gzbj", "sn"]:
             # 故障报警和使能的值为0或1
             if current_time.second % update_frequency[key] == 0:
@@ -55,6 +69,7 @@ def send_data(data):
         'Content-Type': 'application/json'
     }
     response = requests.request("POST", url, headers=headers, data=payload)
+    return response
 
 
 # 初始数据
@@ -72,7 +87,8 @@ data_dict = {
 while True:
     updated_data = update_data(data_dict)
     print("开始发送")
-    send_data(updated_data)
+    result = send_data(updated_data)
     print(updated_data)
+    print(result.text)
     print("结束发送")
     time.sleep(1)  # 暂停1秒
