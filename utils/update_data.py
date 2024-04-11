@@ -19,7 +19,7 @@ def send_data(data):
     return response
 
 
-def read_write_data(input_path):
+def update_data(input_path='data/data.txt'):
     start_time = None
     while True:
         with open(input_path, 'r+') as file:
@@ -53,4 +53,4 @@ def read_write_data(input_path):
 
 
 if __name__ == '__main__':
-    read_write_data('data/data.txt')
+    update_data(input_path='data/data.txt')
