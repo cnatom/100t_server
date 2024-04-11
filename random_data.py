@@ -34,7 +34,7 @@ def update_data(data_dict):
         "scdy": (110,130), "scdl": (560, 640), "lcdy": (280, 350), "lcdl": (460, 500),
         "dqwd": (65, 65), "slcwd": (55, 55), "xlcwd": (55, 55), "sxwd": (23, 23),
         "slcsl": (45, 55), "dqsl": (95, 105), "xlcsl": (47, 57),
-        "bgdl1": (100.1, 100.1), "bgdl2": (99.2, 99.2), "bgdl3": (95, 125), "bgdl4": (100.1, 100.1),
+        "bgdl1": (90, 110), "bgdl2": (90, 110), "bgdl3": (95, 125), "bgdl4": (100.1, 100.1),
         "bgdl5": (98.9, 98.9), "bgdl6": (100.2, 100.2), "bgdl7": (80, 95), "bgdl8": (80, 95), "bgdl9": (80, 95),
         "d1wd": (20, 95), "d2wd": (20, 95), "d3wd": (15, 95), "d4wd": (0, 95)
     }
@@ -61,7 +61,7 @@ def update_data(data_dict):
         elif key in ["gzbj", "sn"]:
             # 故障报警和使能的值为0或1
             if current_time.second % update_frequency[key] == 0:
-                data_dict[key] = random.randint(0, 1)
+                data_dict[key] = random.randint(0, 0)
         elif key in update_frequency:
             # 根据定义的频率更新其他数据
             if current_time.second % update_frequency[key] == 0:
