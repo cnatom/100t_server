@@ -20,24 +20,34 @@ def format_elapsed_time(elapsed_time):
 def update_data(data_dict):
     # 每个数据的更新频率（秒）
     update_frequency = {
-        "scdy": 5, "scdl": 5, "lcdy": 10, "lcdl": 10,
+        "scdy": 2, "scdl": 2, "lcdy": 10, "lcdl": 10,
         "yxsj": 1, "gzbj": 1, "sn": 1,
         "dqwd": 3, "slcwd": 3, "xlcwd": 3, "sxwd": 3,
         "slcsl": 1, "dqsl": 2, "xlcsl": 3,
         "bgdl1": 1, "bgdl2": 1, "bgdl3": 1, "bgdl4": 1,
-        "bgdl5": 20, "bgdl6": 20, "bgdl7": 20, "bgdl8": 20, "bgdl9": 20,
+        "bgdl5": 1, "bgdl6": 1, "bgdl7": 20, "bgdl8": 20, "bgdl9": 20,
         "d1wd": 1, "d2wd": 1, "d3wd": 1, "d4wd": 1
     }
 
     # 每个数据的变化范围
     change_range = {
-        "scdy": (95, 105), "scdl": (30, 35), "lcdy": (10, 15), "lcdl": (28, 33),
-        "dqwd": (80, 90), "slcwd": (60, 65), "xlcwd": (85, 90), "sxwd": (95, 100),
-        "slcsl": (30, 40), "dqsl": (50, 60), "xlcsl": (80, 90),
-        "bgdl1": (80, 95), "bgdl2": (80, 95), "bgdl3": (80, 95), "bgdl4": (80, 95),
-        "bgdl5": (80, 95), "bgdl6": (80, 95), "bgdl7": (80, 95), "bgdl8": (80, 95), "bgdl9": (80, 95),
+        "scdy": (110,130), "scdl": (560, 640), "lcdy": (280, 350), "lcdl": (460, 500),
+        "dqwd": (65, 65), "slcwd": (55, 55), "xlcwd": (55, 55), "sxwd": (23, 23),
+        "slcsl": (45, 55), "dqsl": (95, 105), "xlcsl": (47, 57),
+        "bgdl1": (100.1, 100.1), "bgdl2": (99.2, 99.2), "bgdl3": (95, 125), "bgdl4": (100.1, 100.1),
+        "bgdl5": (98.9, 98.9), "bgdl6": (100.2, 100.2), "bgdl7": (80, 95), "bgdl8": (80, 95), "bgdl9": (80, 95),
         "d1wd": (20, 95), "d2wd": (20, 95), "d3wd": (15, 95), "d4wd": (0, 95)
     }
+    # 设计图数据
+    # change_range = {
+    #     "yxsj": "0天 0小时 0分钟 0秒",
+    #     "scdy": (110,110), "scdl": (800, 800), "lcdy": (280, 280), "lcdl": (460, 460),
+    #     "dqwd": (0, 0), "slcwd": (0, 0), "xlcwd": (0, 0), "sxwd": (0, 0),
+    #     "slcsl": (45, 45), "dqsl": (90, 90), "xlcsl": (40, 40),
+    #     "bgdl1": (0, 0), "bgdl2": (0, 0), "bgdl3": (0, 0), "bgdl4": (0, 0),
+    #     "bgdl5": (0, 0), "bgdl6": (0, 0), "bgdl7": (0, 0), "bgdl8": (0, 0), "bgdl9": (0, 0),
+    #     "d1wd": (20, 95), "d2wd": (20, 95), "d3wd": (15, 95), "d4wd": (0, 95)
+    # }
 
     # 当前时间
     current_time = datetime.now()
@@ -58,7 +68,7 @@ def update_data(data_dict):
                 min_val, max_val = change_range[key]
                 data_dict[key] = random.uniform(min_val, max_val)
                 data_dict[key] = round(data_dict[key], 1)
-
+    # data_dict["yxsj"] = '0天 0小时 0分钟 0秒'
     return data_dict
 
 

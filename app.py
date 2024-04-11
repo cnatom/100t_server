@@ -6,8 +6,9 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-CORS(app)
+CORS(app, resources={r"/socket.io/*": {"origins": "*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
+
 # 全局数据字典
 data_dict = {
     "scdy": 0,  # 输出电压
