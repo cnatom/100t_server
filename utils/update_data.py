@@ -3,9 +3,9 @@
 import time
 import requests
 import json
-from map_data.column_map import column_map
-from map_data.data_dict import data_dict
-from utils.format_time import format_elapsed_time
+from column_map import column_map
+from data_dict import data_dict
+from format_time import format_elapsed_time
 from datetime import datetime
 
 def send_data(data):
@@ -53,4 +53,4 @@ def read_write_data(input_path):
 
 
 if __name__ == '__main__':
-    read_write_data('data/123.txt')
+    read_write_data('data/data.txt')

@@ -4,10 +4,9 @@ import os
 import random
 import time
 from datetime import datetime
-
-from map_data.column_map import column_map
-from map_data.data_dict import data_dict
-from utils.format_time import format_elapsed_time
+from column_map import column_map
+from data_dict import data_dict
+from format_time import format_elapsed_time
 
 # 设置初始时间点（这里以代码首次运行的时间为例）
 start_time = datetime.now()
@@ -95,4 +94,4 @@ def gen_random_txt_data(output_path, data_dict_i, column_map_i):
 
 
 if __name__ == '__main__':
-    gen_random_txt_data(output_path='data/123.txt', data_dict_i=data_dict, column_map_i=column_map)
+    gen_random_txt_data(output_path='data/data.txt', data_dict_i=data_dict, column_map_i=column_map)
