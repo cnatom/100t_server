@@ -3,8 +3,8 @@
 import time
 import requests
 import json
-from jsons.column_map import column_map
-from jsons.data_dict import data_dict
+from map_data.column_map import column_map
+from map_data.data_dict import data_dict
 from utils.format_time import format_elapsed_time
 from datetime import datetime
 

@@ -4,8 +4,9 @@ import os
 import random
 import time
 from datetime import datetime
-from jsons.column_map import column_map
-from jsons.data_dict import data_dict
+
+from map_data.column_map import column_map
+from map_data.data_dict import data_dict
 from utils.format_time import format_elapsed_time
 
 # 设置初始时间点（这里以代码首次运行的时间为例）

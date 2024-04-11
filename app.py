@@ -4,7 +4,7 @@ from flask import Flask, request
 from flask_socketio import SocketIO
 from flask_cors import CORS
 
-from jsons.data_dict import data_dict
+from map_data.data_dict import data_dict
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
