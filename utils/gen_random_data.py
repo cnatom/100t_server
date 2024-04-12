@@ -7,9 +7,11 @@ from datetime import datetime
 from column_map import column_map
 from data_dict import data_dict
 from format_time import format_elapsed_time
+import argparse
 
 # 设置初始时间点（这里以代码首次运行的时间为例）
 start_time = datetime.now()
+
 
 def gen_random_json_data(data_dict):
     # 每个数据的更新频率（秒）
@@ -64,6 +66,12 @@ def gen_random_txt_data(output_path, data_dict_i, column_map_i):
     :param data_dict_i: 数据字典
     :param column_map_i: 列映射字典
     """
+
+    # 检查输出文件是否存在，如果不存在则创建
+    output_dir = os.path.dirname(output_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     # 确保输出文件存在
     with open(output_path, 'a') as f:
         pass
@@ -94,4 +102,10 @@ def gen_random_txt_data(output_path, data_dict_i, column_map_i):
 
 
 if __name__ == '__main__':
-    gen_random_txt_data(output_path='data/data.txt', data_dict_i=data_dict, column_map_i=column_map)
+    parser = argparse.ArgumentParser(description='Generate random data and write it to a file.')
+    parser.add_argument('output_path', default='data/data.txt', type=str, help='The path to the output file')
+    args = parser.parse_args()
+    if args.output_path:
+        gen_random_txt_data(output_path=args.output_path, data_dict_i=data_dict, column_map_i=column_map)
+    else:
+        gen_random_txt_data(data_dict_i=data_dict, column_map_i=column_map)

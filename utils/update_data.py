@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # 读取txt文件，保留txt文件中最新的100行数据，数据清洗后发送到Flask后端
+import argparse
 import time
 import requests
 import json
@@ -7,6 +8,7 @@ from column_map import column_map
 from data_dict import data_dict
 from format_time import format_elapsed_time
 from datetime import datetime
+
 
 def send_data(data):
     """发送数据到Flask后端"""
@@ -53,4 +55,10 @@ def update_data(input_path='data/data.txt'):
 
 
 if __name__ == '__main__':
-    update_data(input_path='data/data.txt')
+    parser = argparse.ArgumentParser(description='Update data from a text file.')
+    parser.add_argument('input_path', default='data/data.txt', type=str, help='The path to the input file')
+    args = parser.parse_args()
+    if args.input_path:
+        update_data(input_path=args.input_path)
+    else:
+        update_data()
