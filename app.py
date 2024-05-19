@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import flask
 from flask import Flask, request, jsonify
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import pymysql
 import datetime
@@ -67,7 +67,6 @@ def handle_data():
     db.close()
 
     return response
-
 
 @app.route('/get_date_range', methods=['GET'])
 def get_date_range():
@@ -142,8 +141,13 @@ def get_data():
     # 将查询结果转换为JSON格式的字符串
     data_history = [{"update_time": str(result[0]), "data": json.loads(result[1])} for result in results]
 
+
+    with open('data/alarm_rules.json', 'r') as f:
+        alarm_rules = json.load(f)
+
+
     # 返回查询结果和总条数
-    return flask.jsonify({"total": total, "data_history": data_history, 'page_size': page_size}), 200
+    return flask.jsonify({"total": total, "data_history": data_history, 'page_size': page_size,"alarm_rules":alarm_rules}), 200
 
 
 @app.route('/change_password', methods=['POST'])
