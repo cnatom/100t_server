@@ -5,5 +5,4 @@ data_dict = {
     "slcsl": 0, "dqsl": 0, "xlcsl": 0,
     "bgdl1": 0, "bgdl2": 0, "bgdl3": 0, "bgdl4": 0,
     "bgdl5": 0, "bgdl6": 0, "bgdl7": 0, "bgdl8": 0, "bgdl9": 0,
-    "d1wd": 0, "d2wd": 0, "d3wd": 0, "d4wd": 0
 }
