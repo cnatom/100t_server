@@ -42,7 +42,7 @@ def update_data(input_path='data/data.txt'):
                         if column_map[i] in ['gzbj', 'sn']:
                             data_dict[column_map[i]] = int(data)
                         else:
-                            data_dict[column_map[i]] = float(data_list[i])
+                            data_dict[column_map[i]] = format(float(data_list[i]) / 10, '.1f')
                 except ValueError:
                     continue
             # 获取开始时间和当前时间
