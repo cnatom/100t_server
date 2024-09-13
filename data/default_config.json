@@ -1,0 +1,326 @@
+{
+  "title": "大型电动振动台运维平台",
+  "runningTime": "0天 0小时 0分钟 0秒",
+  "templates": [
+    {
+      "id": "bar",
+      "name": "柱状图",
+      "config": [
+        {
+          "name": "方向",
+          "id": "direction",
+          "type": "enum",
+          "values": [
+            {
+              "id": "row",
+              "name": "横向"
+            },
+            {
+              "id": "column",
+              "name": "纵向"
+            }
+          ]
+        },
+        {
+          "name": "单位",
+          "id": "unit",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "id": "line",
+      "name": "折线图",
+      "config": [
+        {
+          "name": "左右单位",
+          "id": "split",
+          "type": "bool"
+        },
+        {
+          "name": "左单位",
+          "id": "unit",
+          "type": "string"
+        },
+        {
+          "name": "右单位",
+          "id": "unit_r",
+          "type": "string"
+        },
+        {
+          "name": "左最大值",
+          "id": "max_data",
+          "type": "number"
+        },
+        {
+          "name": "右最大值",
+          "id": "max_data_r",
+          "type": "number"
+        }
+      ]
+    },
+    {
+      "id": "bool",
+      "name": "提示灯",
+      "config": [
+        {
+          "name": "正常色彩",
+          "id": "color_true",
+          "type": "color"
+        },
+        {
+          "name": "辅助色彩",
+          "id": "color_false",
+          "type": "color"
+        }
+      ]
+    },
+    {
+      "id": "number",
+      "name": "数值",
+      "config": [
+        {
+          "name": "文字色彩",
+          "id": "text_color",
+          "type": "color"
+        }
+      ]
+    },
+    {
+      "id": "gauge",
+      "name": "仪表盘",
+      "config": [
+        {
+          "name": "单位",
+          "id": "unit",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "position": {
+    "lt": {
+      "name": "左上",
+      "value": "bgdl"
+    },
+    "lb": {
+      "name": "左下",
+      "value": "slbh"
+    },
+    "rt": {
+      "name": "右上",
+      "value": "wd"
+    },
+    "rb": {
+      "name": "右下",
+      "value": "scdldy"
+    },
+    "cb": {
+      "name": "中下",
+      "value": "nums"
+    }
+  },
+  "charts": {
+    "bgdl": {
+      "title": "边柜电流",
+      "type": "bar",
+      "config": {
+        "direction": "row",
+        "unit": "A"
+      },
+      "items": [
+        {
+          "name": "边柜电流1",
+          "id": "bgdl1",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "边柜电流2",
+          "id": "bgdl2",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "边柜电流3",
+          "id": "bgdl3",
+          "visible": true,
+          "value": 0
+        },
+        {
+          "name": "边柜电流4",
+          "id": "bgdl4",
+          "visible": true,
+          "value": 0
+        },
+        {
+          "name": "边柜电流5",
+          "id": "bgdl5",
+          "visible": true,
+          "value": 0
+        },
+        {
+          "name": "边柜电流6",
+          "id": "bgdl6",
+          "visible": true,
+          "value": 0
+        }
+      ]
+    },
+    "slbh": {
+      "title": "水流变化",
+      "type": "line",
+      "config": {
+        "unit": "L/min"
+      },
+      "items": [
+        {
+          "name": "上励磁水流",
+          "id": "slcsl",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "动圈水流",
+          "id": "dqsl",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "下励磁水流",
+          "id": "xlcsl",
+          "visible": true,
+          "value": 0
+        }
+      ]
+    },
+    "wd": {
+      "title": "温度",
+      "type": "gauge",
+      "config": {
+        "unit": "℃"
+      },
+      "items": [
+        {
+          "name": "动圈",
+          "id": "dqwd",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "上励磁",
+          "id": "slcwd",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "下励磁",
+          "id": "xlcwd",
+          "visible": true,
+          "value": 0
+        },
+        {
+          "name": "水箱",
+          "id": "sxwd",
+          "visible": true,
+          "value": 0
+        }
+      ]
+    },
+    "scdldy": {
+      "title": "输出电流电压",
+      "type": "line",
+      "config": {
+        "split": true,
+        "unit": "V",
+        "unit_r": "A",
+        "max_data": 350,
+        "max_data_r": 6000
+      },
+      "items": [
+        {
+          "name": "输出电压",
+          "id": "scdy",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "输出电流",
+          "id": "scdl",
+          "value": 0,
+          "visible": true
+        }
+      ]
+    },
+    "gzbj": {
+      "title": "故障/报警",
+      "type": "bool",
+      "config": {
+        "color_true": "#7EC83C",
+        "color_false": "#E83B39"
+      },
+      "items": [
+        {
+          "name": "故障/报警",
+          "id": "gzbj",
+          "value": 1,
+          "visible": true
+        }
+      ]
+    },
+    "sn": {
+      "title": "使能",
+      "type": "bool",
+      "config": {
+        "color_true": "#7EC83C",
+        "color_false": "#61686C"
+      },
+      "items": [
+        {
+          "name": "使能",
+          "id": "sn",
+          "value": 0,
+          "visible": true
+        }
+      ]
+    },
+    "nums": {
+      "title": "电流电压数值",
+      "showTitle": false,
+      "type": "number",
+      "config": {
+        "text_color": "#FFFF59"
+      },
+      "items": [
+        {
+          "name": "励磁电流",
+          "id": "lcdl",
+          "unit": "A",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "励磁电压",
+          "id": "lcdy",
+          "unit": "V",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "输出电流",
+          "id": "scdl",
+          "unit": "A",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "输出电压",
+          "id": "scdy",
+          "unit": "V",
+          "value": 0,
+          "visible": true
+        }
+      ]
+    }
+  }
+}

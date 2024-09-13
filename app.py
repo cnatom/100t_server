@@ -5,16 +5,18 @@ from flask_socketio import SocketIO, emit
 from flask_cors import CORS
 import pymysql
 import datetime
-import json
 from utils.data_dict import data_dict
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 import json
+from utils.config import getConfig, updateConfig
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
+config = getConfig()
+
 def init_db():
     db = pymysql.connect(host='localhost', user='root', password='')
     cursor = db.cursor()
@@ -28,12 +30,14 @@ def init_db():
     count = cursor.fetchone()[0]
     if count == 0:
         # 如果users表为空，添加一个默认的用户
-        hashed_password = generate_password_hash('admin',method='pbkdf2:sha256')
+        hashed_password = generate_password_hash('admin', method='pbkdf2:sha256')
         cursor.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ('admin', hashed_password))
         db.commit()
 
     cursor.close()
     db.close()
+
+
 # 连接数据库
 def connect_db():
     db = pymysql.connect(host='localhost', user='root', password='')
@@ -43,12 +47,19 @@ def connect_db():
 
 
 @app.route('/send_data', methods=['POST'])
-def handle_data():
-    import json
+def send_data():
+    global config
     incoming_data = request.json
     data_dict.update(incoming_data)  # 更新数据
+    # 将data_dict数据赋给config
+    charts = config['charts']
+    for key, value in charts.items():
+        items = value['items']
+        for item in items:
+            item['value'] = data_dict[item['id']] or 0
+    # config['runningTime'] = data_dict['yxsj']
     socketio.emit('update_data', data_dict)  # 发送完整的数据到前端
-
+    socketio.emit('update_config', config)
     # 连接数据库并存储数据
     db, cursor = connect_db()
     update_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -67,6 +78,7 @@ def handle_data():
     db.close()
 
     return response
+
 
 @app.route('/get_date_range', methods=['GET'])
 def get_date_range():
@@ -141,13 +153,12 @@ def get_data():
     # 将查询结果转换为JSON格式的字符串
     data_history = [{"update_time": str(result[0]), "data": json.loads(result[1])} for result in results]
 
-
     with open('data/alarm_rules.json', 'r') as f:
         alarm_rules = json.load(f)
 
-
     # 返回查询结果和总条数
-    return flask.jsonify({"total": total, "data_history": data_history, 'page_size': page_size,"alarm_rules":alarm_rules}), 200
+    return flask.jsonify(
+        {"total": total, "data_history": data_history, 'page_size': page_size, "alarm_rules": alarm_rules}), 200
 
 
 @app.route('/change_password', methods=['POST'])
@@ -155,16 +166,16 @@ def change_password():
     old_password = request.json.get('old_password')
     new_password = request.json.get('new_password')
     if not old_password or not new_password:
-        return jsonify({"error": "Old and new password required","status":400}), 400
+        return jsonify({"error": "Old and new password required", "status": 400}), 400
 
     db, cursor = connect_db()
     cursor.execute("SELECT * FROM users ORDER BY username ASC LIMIT 1")
     user = cursor.fetchone()
     if not user:
-        return jsonify({"message": "没有找到用户","status":400}), 400
+        return jsonify({"message": "没有找到用户", "status": 400}), 400
 
     if not check_password_hash(user[1], old_password):
-        return jsonify({"message": "旧密码错误！","status":400}), 400
+        return jsonify({"message": "旧密码错误！", "status": 400}), 400
 
     hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
     cursor.execute("UPDATE users SET password = %s WHERE username = %s", (hashed_password, user[0]))
@@ -172,14 +183,15 @@ def change_password():
     cursor.close()
     db.close()
 
-    return jsonify({"message": "密码更新成功","status":200}), 200
+    return jsonify({"message": "密码更新成功", "status": 200}), 200
+
 
 @app.route('/login', methods=['POST'])
 def login():
     username = request.json.get('username')
     password = request.json.get('password')
     if not username or not password:
-        return jsonify({"error": "Username and password required","status":400}), 400
+        return jsonify({"error": "Username and password required", "status": 400}), 400
 
     db, cursor = connect_db()
     cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
@@ -188,9 +200,42 @@ def login():
     db.close()
 
     if not user or not check_password_hash(user[1], password):
-        return jsonify({"error": "Invalid username or password","status":400}), 400
+        return jsonify({"error": "Invalid username or password", "status": 400}), 400
 
-    return jsonify({"message": "Logged in successfully","status":200}), 200
+    return jsonify({"message": "Logged in successfully", "status": 200}), 200
+
+
+@app.route('/get_config', methods=['GET'])
+def get_config():
+    return jsonify(config), 200
+
+@app.route('/get_key_map', methods=['GET'])
+def get_key_map():
+    key_map = {}
+    for chart in config['charts'].values():
+        for item in chart['items']:
+            key_map[item['id']] = item['name']
+    return jsonify(key_map), 200
+
+
+@app.route('/update_config', methods=['POST'])
+def update_config():
+    global config
+    new_config = request.json
+    updateConfig(new_config)
+    config = getConfig()
+    return jsonify(config), 200
+
+
+@app.route('/recover_config', methods=['GET'])
+def recover_config():
+    global config
+    with open('data/default_config.json', 'r', encoding='utf-8') as f:
+        default_config = json.load(f)
+    with open('data/config.json', 'w', encoding='utf-8') as f:
+        json.dump(default_config, f,ensure_ascii=False)
+    config = getConfig()
+    return jsonify(config), 200
 
 
 @app.route('/get_alarm_rules', methods=['GET'])
@@ -198,6 +243,7 @@ def get_alarm_rules():
     with open('data/alarm_rules.json', 'r') as f:
         alarm_rules = json.load(f)
     return jsonify(alarm_rules), 200
+
 
 @app.route('/update_alarm_rules', methods=['POST'])
 def update_alarm_rules():
@@ -212,6 +258,7 @@ def update_alarm_rules():
         return jsonify({"status": 200, "message": "修改成功"}), 200
     except:
         return jsonify({"status": 501, "message": "修改失败，服务端错误"}), 501
+
 
 if __name__ == '__main__':
     print("Before init_db")

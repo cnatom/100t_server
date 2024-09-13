@@ -10,7 +10,7 @@ from format_time import format_elapsed_time
 from datetime import datetime
 
 
-def send_data(data):
+def send_post_data(data):
     """发送数据到Flask后端"""
     url = "http://localhost:5000/send_data"
     payload = json.dumps(data)
@@ -57,8 +57,7 @@ def update_data(input_path='data/data.txt'):
                 # 使用format_elapsed_time函数格式化运行时间
                 data_dict['yxsj'] = format_elapsed_time(elapsed_time)
             # 发送数据到服务器
-            result = send_data(data_dict)
-            print(result.text)
+            result = send_post_data(data_dict)
         # 暂停一秒
         time.sleep(1)
 
