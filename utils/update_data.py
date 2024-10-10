@@ -12,7 +12,7 @@ from datetime import datetime
 
 def send_post_data(data):
     """发送数据到Flask后端"""
-    url = "http://localhost:5000/send_data"
+    url = "http://127.0.0.1:5000/send_data"
     payload = json.dumps(data)
     headers = {
         'Content-Type': 'application/json'
