@@ -84,8 +84,6 @@ def gen_random_txt_data(output_path, data_dict_i, column_map_i):
             # 创建一个列表，用于存储每一列的数据
             data_list = ['0'] * (max(column_map_i.keys()) + 1)
             for index, key in column_map_i.items():
-                if index == 18:
-                    print()
                 data_list[index] = str(data_dict_i[key])
             # 创建时间戳
             timestamp = datetime.now().strftime('%H:%M:%S %B %d, %Y')
