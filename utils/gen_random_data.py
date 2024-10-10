@@ -19,9 +19,9 @@ def gen_random_json_data(data_dict):
         "scdy": 2, "scdl": 2, "lcdy": 1, "lcdl": 1,
         "yxsj": 1, "gzbj": 1, "sn": 1,
         "dqwd": 1, "slcwd": 1, "xlcwd": 1, "sxwd": 1,
-        "slcsl": 1, "dqsl": 2, "xlcsl": 3,
+        "slcsl": 1, "dqsl": 1, "xlcsl": 1,
         "bgdl1": 1, "bgdl2": 1, "bgdl3": 1, "bgdl4": 1,
-        "bgdl5": 1, "bgdl6": 1, "bgdl7": 20, "bgdl8": 20, "bgdl9": 20,
+        "bgdl5": 1, "bgdl6": 1, "bgdl7": 4, "bgdl8": 3, "bgdl9": 2,
         "d1wd": 1, "d2wd": 1, "d3wd": 1, "d4wd": 1
     }
 
