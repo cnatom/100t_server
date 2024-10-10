@@ -18,7 +18,7 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 config = getConfig()
 
 def init_db():
-    db = pymysql.connect(host='localhost', user='root', password='')
+    db = pymysql.connect(host='127.0.0.1', user='root', password='')
     cursor = db.cursor()
     cursor.execute("CREATE DATABASE IF NOT EXISTS 100t_data")
     cursor.execute("USE 100t_data")
@@ -40,7 +40,7 @@ def init_db():
 
 # 连接数据库
 def connect_db():
-    db = pymysql.connect(host='localhost', user='root', password='')
+    db = pymysql.connect(host='127.0.0.1', user='root', password='')
     cursor = db.cursor()
     cursor.execute("USE 100t_data")
     return db, cursor
