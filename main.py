@@ -1,6 +1,7 @@
 import argparse
 import multiprocessing
 import os
+import time
 
 if __name__ == "__main__":
     # 创建解析器
@@ -13,4 +14,5 @@ if __name__ == "__main__":
     if args.demo == 'True':
         multiprocessing.Process(target=os.system, args=(f'{args.env} utils/gen_random_data.py {args.path}',)).start()
     multiprocessing.Process(target=os.system, args=(f'{args.env} app.py',)).start()
+    time.sleep(2)
     multiprocessing.Process(target=os.system, args=(f'{args.env} utils/update_data.py {args.path}',)).start()
